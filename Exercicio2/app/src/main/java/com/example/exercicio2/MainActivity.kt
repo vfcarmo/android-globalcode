@@ -23,7 +23,7 @@ class MainActivity : AppCompatActivity() {
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
 
-            val intent = Intent(this, DetailsActivity::class.java)
+            val intent = Intent(this, EditActivity::class.java)
             startActivityForResult(intent, REQUEST_CODE)
         }
     }
