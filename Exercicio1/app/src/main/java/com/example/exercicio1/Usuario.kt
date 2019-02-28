@@ -13,7 +13,7 @@ data class Usuario(val nome: String?,
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        Genero.valueOf(parcel.readString())
+        Genero.valueOf(parcel.readString()!!)
     ) {
     }
 
