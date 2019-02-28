@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
+import com.example.exercicio1.Usuario
 
 class DetailsActivity : AppCompatActivity() {
 
@@ -21,7 +22,15 @@ class DetailsActivity : AppCompatActivity() {
         this.tvEmail = findViewById(R.id.tvEmail)
         this.tvGenero = findViewById(R.id.tvGenero)
 
+        val intent = intent
+        val usuario: Usuario? = intent.getParcelableExtra(MainActivity.USUARIO)
 
+        if (usuario != null) {
+            tvNome.text = usuario.nome
+            tvSobrenome.text = usuario.sobrenome
+            tvEmail.text = usuario.email
+            tvGenero.text = usuario.genero.name
+        }
 
         val btVoltar: Button = findViewById(R.id.btVoltar)
         btVoltar.setOnClickListener {

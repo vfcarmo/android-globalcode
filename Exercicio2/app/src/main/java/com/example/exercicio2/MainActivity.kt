@@ -12,7 +12,10 @@ class MainActivity : AppCompatActivity() {
 
     companion object {
         const val REQUEST_CODE: Int = 1
+        const val USUARIO = "USUARIO"
     }
+
+    private var myIntent: Intent? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,10 +23,11 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+            //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
 
             val intent = Intent(this, EditActivity::class.java)
+            myIntent = intent
             startActivityForResult(intent, REQUEST_CODE)
         }
     }
@@ -31,13 +35,19 @@ class MainActivity : AppCompatActivity() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        when (requestCode) {
-            REQUEST_CODE -> {
-                if (resultCode == Activity.RESULT_OK && data != null) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            when (requestCode) {
+                REQUEST_CODE -> {
                     val result = data.getParcelableExtra<Usuario>("RESULT")
 
-                    Log.d(localClassName, "Usuário { nome=${result.nome}, sobrenome=${result.sobrenome}, " +
-                            "email=${result.email}, genero=${result.genero.name.toLowerCase()}, password=*** }")
+                    val intent = Intent(this, DetailsActivity::class.java)
+                    intent.putExtra(USUARIO, result)
+                    startActivity(intent)
+
+                    Log.d(
+                        localClassName, "Usuário { nome=${result.nome}, sobrenome=${result.sobrenome}, " +
+                                "email=${result.email}, genero=${result.genero.name.toLowerCase()}, password=*** }"
+                    )
                 }
             }
         }
