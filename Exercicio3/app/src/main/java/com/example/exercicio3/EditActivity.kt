@@ -1,12 +1,13 @@
 package com.example.exercicio3
 
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.widget.ImageView
-import android.widget.TextView
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import com.example.exercicio3.MainActivity.Companion.GALLERY_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_edit.*
 
@@ -44,7 +45,6 @@ class EditActivity : AppCompatActivity() {
 
     private fun salvar() {
 
-        val resourceImageId = ivProgrammingLanguage.resources
         val title = etTitle.text.toString()
         val launchYear = etLaunchYear.text.toString()
         val description = etDescription.text.toString()
@@ -73,7 +73,7 @@ class EditActivity : AppCompatActivity() {
         var result = true
 
         if (description.isEmpty()) {
-            etDescription.setError("Sobrenome é obrigatório!")
+            etDescription.error = getString(R.string.msg_description_required)
             result = false
             etDescription.requestFocus()
         } else {
@@ -81,7 +81,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         if (launchYear.isEmpty()) {
-            etLaunchYear.setError("Sobrenome é obrigatório!")
+            etLaunchYear.error = getString(R.string.msg_launch_year_required)
             result = false
             etLaunchYear.requestFocus()
         } else {
@@ -89,7 +89,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         if (title.isEmpty()) {
-            etTitle.setError("Nome é obrigatório!")
+            etTitle.error = getString(R.string.msg_title_required)
             result = false
             etTitle.requestFocus()
         } else {
@@ -98,6 +98,7 @@ class EditActivity : AppCompatActivity() {
         return result
     }
 
+    @SuppressLint("InlinedApi")
     private fun pickFromGallery() {
 
         val intent = Intent(Intent.ACTION_PICK)

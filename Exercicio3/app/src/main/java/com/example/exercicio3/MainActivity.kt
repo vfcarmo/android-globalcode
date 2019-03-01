@@ -3,15 +3,14 @@ package com.example.exercicio3
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity;
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
@@ -56,7 +55,7 @@ class MainActivity : AppCompatActivity() {
         fab.setOnClickListener { view ->
 //            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
 //                .setAction("Action", null).show()
-            val intent: Intent = Intent(this, EditActivity::class.java)
+            val intent = Intent(this, EditActivity::class.java)
             startActivityForResult(intent, EDIT_REQUEST_CODE)
         }
     }
