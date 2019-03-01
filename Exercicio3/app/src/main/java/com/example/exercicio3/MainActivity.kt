@@ -5,13 +5,11 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.content_main.*
 
 class MainActivity : AppCompatActivity() {
 
@@ -20,10 +18,12 @@ class MainActivity : AppCompatActivity() {
 
         const val GALLERY_REQUEST_CODE = 2
 
+        const val SAVED_INSTANCE = "SAVED_INSTANCE"
+
+        const val PROGRAMMING_LANGUAGE = "PROGRAMMING_LANGUAGE"
+
         const val RESULT = "RESULT"
     }
-
-    private lateinit var recyclerView: RecyclerView
 
     private val programmingLanguages: MutableList<ProgrammingLanguage> = mutableListOf()
 
@@ -32,8 +32,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
-
-        this.recyclerView = findViewById(R.id.recyclerView)
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -46,15 +44,15 @@ class MainActivity : AppCompatActivity() {
         this.programmingLanguages.add(programmingLanguageKotlin)
         this.programmingLanguages.add(programmingLanguageJava)
 
-        val listener = View.OnClickListener {
-            val tvTitle: TextView = it.findViewById(R.id.tvTitle)
-            Toast.makeText(this, "Clicked Item: ${tvTitle.text}", Toast.LENGTH_LONG).show()
-        }
-        recyclerView.adapter = ProgrammingLanguageAdater(programmingLanguages, listener)
+        recyclerView.adapter = ProgrammingLanguageAdater(programmingLanguages) {
+            Toast.makeText(this, "Clicked Item: ${it.title}", Toast.LENGTH_LONG).show()
 
-        fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
+            val intent = Intent(this, EditActivity::class.java)
+            intent.putExtra(PROGRAMMING_LANGUAGE, it)
+            startActivityForResult(intent, EDIT_REQUEST_CODE)
+        }
+
+        fab.setOnClickListener {
             val intent = Intent(this, EditActivity::class.java)
             startActivityForResult(intent, EDIT_REQUEST_CODE)
         }

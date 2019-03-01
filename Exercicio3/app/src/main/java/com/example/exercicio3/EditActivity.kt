@@ -5,8 +5,6 @@ import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.exercicio3.MainActivity.Companion.GALLERY_REQUEST_CODE
 import kotlinx.android.synthetic.main.activity_edit.*
@@ -14,88 +12,79 @@ import kotlinx.android.synthetic.main.activity_edit.*
 
 class EditActivity : AppCompatActivity() {
 
-    private lateinit var ivProgrammingLanguage: ImageView
-    private lateinit var etTitle: TextView
-    private lateinit var etLaunchYear: TextView
-    private lateinit var etDescription: TextView
+    private lateinit var programmingLanguageHelper: ProgrammingLanguageHelper
+
+    private var programmingLanguage: ProgrammingLanguage? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        this.ivProgrammingLanguage = findViewById(R.id.ivProgrammingLanguage)
-        this.etTitle= findViewById(R.id.etTitle)
-        this.etLaunchYear = findViewById(R.id.etLaunchYear)
-        this.etDescription = findViewById(R.id.etDescription)
+        this.programmingLanguageHelper = ProgrammingLanguageHelper(this)
 
-        ivProgrammingLanguage.isClickable = true
-        ivProgrammingLanguage.setOnClickListener {
+        this.programmingLanguage = intent.getParcelableExtra(MainActivity.PROGRAMMING_LANGUAGE)
+        this.programmingLanguage?.let {
+            programmingLanguageHelper.bindView(it)
+        }
+
+        this.ivProgrammingLanguage.isClickable = true
+        this.ivProgrammingLanguage.setOnClickListener {
             pickFromGallery()
         }
 
-        btSalvar.setOnClickListener {
+        this.btSalvar.setOnClickListener {
             salvar()
         }
 
-        btCancelar.setOnClickListener {
+        this.btCancelar.setOnClickListener {
             finish()
         }
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+
+        outState?.putParcelable(MainActivity.PROGRAMMING_LANGUAGE, programmingLanguage)
+
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        if (savedInstanceState != null) {
+            this.programmingLanguage = savedInstanceState.getParcelable(MainActivity.PROGRAMMING_LANGUAGE)
+            programmingLanguageHelper.bindView(programmingLanguage)
+        }
+    }
+
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            when (requestCode) {
+                GALLERY_REQUEST_CODE -> {
+                    val selectedImage = data.data
+                    this.ivProgrammingLanguage.setImageURI(selectedImage)
+                }
+            }
+        }
     }
 
     private fun salvar() {
 
-        val title = etTitle.text.toString()
-        val launchYear = etLaunchYear.text.toString()
-        val description = etDescription.text.toString()
+        val programmingLanguage = programmingLanguageHelper.getModel()
 
-        val valid: Boolean = isValid(title, launchYear, description)
-
-        if (valid) {
-
-            val programmingLanguage = ProgrammingLanguage(R.drawable.ic_developer_board,
-                title, launchYear.toInt(), description)
-
+        programmingLanguage?.let {
             val intent: Intent = intent
-            intent.putExtra("RESULT", programmingLanguage)
+            intent.putExtra("RESULT", it)
             setResult(Activity.RESULT_OK, intent)
 
             Log.d(
-                localClassName, "Programming Language { title=${programmingLanguage.title}, " +
-                        "year=${programmingLanguage.year}, description=${programmingLanguage.description} }"
+                localClassName, "Programming Language { title=${it.title}, year=${it.year}, " +
+                        "description=${it.description} }"
             )
             finish()
         }
-    }
-
-    private fun isValid(title: String, launchYear: String, description: String): Boolean {
-
-        var result = true
-
-        if (description.isEmpty()) {
-            etDescription.error = getString(R.string.msg_description_required)
-            result = false
-            etDescription.requestFocus()
-        } else {
-            etDescription.error = null
-        }
-
-        if (launchYear.isEmpty()) {
-            etLaunchYear.error = getString(R.string.msg_launch_year_required)
-            result = false
-            etLaunchYear.requestFocus()
-        } else {
-            etLaunchYear.error = null
-        }
-
-        if (title.isEmpty()) {
-            etTitle.error = getString(R.string.msg_title_required)
-            result = false
-            etTitle.requestFocus()
-        } else {
-            etTitle.error = null
-        }
-        return result
     }
 
     @SuppressLint("InlinedApi")
@@ -108,15 +97,4 @@ class EditActivity : AppCompatActivity() {
         startActivityForResult(intent, GALLERY_REQUEST_CODE)
     }
 
-    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-
-        if (resultCode == Activity.RESULT_OK && data != null) {
-            when (requestCode) {
-                GALLERY_REQUEST_CODE -> {
-                    val selectedImage = data.data
-                    ivProgrammingLanguage.setImageURI(selectedImage)
-                }
-            }
-        }
-    }
 }

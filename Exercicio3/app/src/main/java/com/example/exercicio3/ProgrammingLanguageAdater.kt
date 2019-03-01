@@ -3,17 +3,17 @@ package com.example.exercicio3
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.programming_language.view.*
 
-class ProgrammingLanguageAdater(programmingLanguages: List<ProgrammingLanguage>, listener: View.OnClickListener) : RecyclerView.Adapter<ProgrammingLanguageAdater.ViewHolder>() {
-
-    private val programmingLanguages: List<ProgrammingLanguage> = programmingLanguages
-    private val listener: View.OnClickListener = listener
+class ProgrammingLanguageAdater(
+    private val programmingLanguages: List<ProgrammingLanguage>,
+    private val listener: (ProgrammingLanguage) -> Unit
+) : RecyclerView.Adapter<ProgrammingLanguageAdater.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val itemView: View = LayoutInflater.from(parent.context).inflate(R.layout.programming_language, parent, false)
+        val itemView: View = LayoutInflater.from(parent.context)
+            .inflate(R.layout.programming_language, parent, false)
         return ViewHolder(itemView)
     }
 
@@ -28,18 +28,16 @@ class ProgrammingLanguageAdater(programmingLanguages: List<ProgrammingLanguage>,
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        fun bindView(programmingLanguage: ProgrammingLanguage, listener: View.OnClickListener) {
-            val ivMain = itemView.findViewById<ImageView>(R.id.ivMain)
-            val tvTitle = itemView.findViewById<TextView>(R.id.tvTitle)
-            val tvLaunchYear = itemView.findViewById<TextView>(R.id.tvLaunchYear)
-            val tvDescription = itemView.findViewById<TextView>(R.id.tvDescription)
-
+        fun bindView(programmingLanguage: ProgrammingLanguage, listener:
+            (ProgrammingLanguage) -> Unit) = with(itemView) {
             ivMain.setImageResource(programmingLanguage.imageResourceId)
             tvTitle.text = programmingLanguage.title
             tvLaunchYear.text = programmingLanguage.year.toString()
             tvDescription.text = programmingLanguage.description
 
-            itemView.setOnClickListener(listener)
+            itemView.setOnClickListener {
+                listener(programmingLanguage)
+            }
         }
     }
 
