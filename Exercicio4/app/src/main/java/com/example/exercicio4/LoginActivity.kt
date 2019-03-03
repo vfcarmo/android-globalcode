@@ -1,4 +1,4 @@
-package com.example.aula4
+package com.example.exercicio4
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -23,7 +23,6 @@ import android.widget.TextView
 
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
-import android.app.Activity
 import android.content.Intent
 
 import kotlinx.android.synthetic.main.activity_login.*
@@ -236,7 +235,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             android.R.layout.simple_dropdown_item_1line, emailAddressCollection
         )
 
-        email.setAdapter<ArrayAdapter<String>?>(adapter)
+        email.setAdapter(adapter)
     }
 
     object ProfileQuery {
@@ -252,7 +251,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    inner class UserLoginTask internal constructor(private val context: Activity, private val mEmail: String, private val mPassword: String) :
+    inner class UserLoginTask internal constructor(private val context: LoginActivity, private val mEmail: String, private val mPassword: String) :
         AsyncTask<Void, Void, Boolean>() {
 
         override fun doInBackground(vararg params: Void): Boolean? {
@@ -280,7 +279,9 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             showProgress(false)
 
             if (success!!) {
-                startActivity(Intent(context, MainActivity::class.java))
+                val intent = Intent(context, MainActivity::class.java)
+                startActivity(intent)
+                finish()
             } else {
                 password.error = getString(R.string.error_incorrect_password)
                 password.requestFocus()

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:app="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_margin="4dp">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <ImageView
+                android:layout_width="96dp"
+                android:layout_height="110dp" app:srcCompat="@drawable/ic_menu_camera"
+                android:id="@+id/ivBookCover" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintBottom_toBottomOf="parent" android:layout_marginBottom="8dp"
+                android:contentDescription="@string/label_book_cover"/>
+        <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+                app:layout_constraintStart_toEndOf="@+id/ivBookCover" android:layout_marginLeft="8dp"
+                android:layout_marginStart="8dp" android:textStyle="bold" android:textSize="24sp" tools:text="Title"/>
+        <TextView
+                android:id="@+id/tvPublishYear"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" android:textSize="12sp" tools:text="Year: YYYY"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:maxLines="3"
+                android:ellipsize="end"
+                android:textColor="#AAA"
+                android:id="@+id/tvDescription" app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toEndOf="parent" android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvPublishYear" tools:text="Description"/>
+        <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/tvAuthor" app:layout_constraintStart_toEndOf="@+id/ivBookCover"
+                android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+                app:layout_constraintEnd_toStartOf="@+id/tvPublishYear" android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp" android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvTitle" android:textSize="12sp" tools:text="Author: AAAAA"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.cardview.widget.CardView>

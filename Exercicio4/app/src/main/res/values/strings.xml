@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">Exercicio4</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_login">Sign in</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email completions."</string>
+    <string name="label_book_cover">Book cover</string>
+    <string name="label_title">Title:</string>
+    <string name="hint_book_title">Inform the book\'s author</string>
+    <string name="label_author">Author:</string>
+    <string name="hint_book_author">Inform the book\'s author</string>
+    <string name="label_publish_year">Publish Year:</string>
+    <string name="hint_publish_year">Inform the publish year</string>
+    <string name="label_description">Description:</string>
+    <string name="hint_book_descriptions">Inform the book\'s descriptions</string>
+    <string name="label_save">Save</string>
+    <string name="label_cancel">Cancel</string>
+    <string name="label_edit">Edit</string>
+    <string name="label_back">Back</string>
+    <string name="label_book_cover_url">Book Cover URL:</string>
+    <string name="hint_book_cover_url">Inform the book\'s cover url</string>
+    <string name="msg_book_description_required">Book\'s description is required!</string>
+    <string name="msg_publish_year_required">Publish year is required!</string>
+    <string name="msg_author_required">Book\'s Author is required!</string>
+    <string name="msg_book_title_required">Book\'s title is required!</string>
+    <string name="msg_book_cover_required">Book\'s cover is required!</string>
+</resources>
