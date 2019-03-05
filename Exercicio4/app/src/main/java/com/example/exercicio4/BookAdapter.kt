@@ -8,7 +8,8 @@ import kotlinx.android.synthetic.main.books.view.*
 
 class BookAdapter(
     private val books: List<Book>,
-    private val listener: (Book) -> Unit
+    private val onClickListener: (Book) -> Unit,
+    private val onLongClickListener: (Book) -> Boolean
 ) : RecyclerView.Adapter<BookAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -22,13 +23,17 @@ class BookAdapter(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val book = books[position]
-        holder.bindView(book, listener)
+        holder.bindView(book, onClickListener, onLongClickListener)
     }
 
 
     class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
 
-        fun bindView(book: Book, listener: (Book) -> Unit) = with(itemView) {
+        fun bindView(
+            book: Book,
+            onClickListener: (Book) -> Unit,
+            onLongClickListener: (Book) -> Boolean
+        ) = with(itemView) {
 
             ivBookCover.setImageBitmap(book.cover)
             tvTitle.text = book.title
@@ -37,7 +42,11 @@ class BookAdapter(
             tvDescription.text = book.description
 
             itemView.setOnClickListener {
-                listener(book)
+                onClickListener(book)
+            }
+
+            itemView.setOnLongClickListener {
+                onLongClickListener(book)
             }
         }
     }

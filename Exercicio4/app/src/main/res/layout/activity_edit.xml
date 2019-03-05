@@ -27,10 +27,10 @@
             android:hint="@string/hint_book_cover_url"
             tools:ignore="Autofill"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView5"/>
+            app:layout_constraintTop_toBottomOf="@+id/textView5" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btLoadPhoto" android:layout_marginRight="8dp"/>
     <ImageView
             android:layout_width="96dp"
             android:layout_height="110dp" app:srcCompat="@drawable/ic_menu_camera"
@@ -139,7 +139,7 @@
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp"
             android:id="@+id/linearLayout"
-            android:layout_marginTop="16dp" app:layout_constraintTop_toBottomOf="@+id/etDescription">
+            android:layout_marginBottom="8dp" app:layout_constraintBottom_toBottomOf="parent">
         <Button
                 android:text="@string/label_save"
                 android:layout_width="wrap_content"
@@ -151,4 +151,19 @@
                 android:layout_height="wrap_content" android:id="@+id/btCancel" android:layout_weight="1"
                 tools:ignore="ButtonStyle"/>
     </LinearLayout>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvId" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/etDescription" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp" android:visibility="invisible"/>
+    <Button
+            android:text="@string/label_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btLoadPhoto" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

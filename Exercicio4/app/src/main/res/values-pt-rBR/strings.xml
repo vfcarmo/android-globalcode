@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_settings">Configurações</string>
+    <string name="title_activity_login">Logar</string>
+    <string name="prompt_email">E-mail</string>
+    <string name="prompt_password">Senha (opcional)</string>
+    <string name="action_sign_in">Logar ou cadastrar</string>
+    <string name="action_sign_in_short">Logar</string>
+    <string name="error_invalid_email">Este e-mail é inválido</string>
+    <string name="error_invalid_password">Esta senha é muito curta</string>
+    <string name="error_incorrect_password">Esta senha está incorreta</string>
+    <string name="error_field_required">Este campo é obrigatório</string>
+    <string name="permission_rationale">As permissões de contatos são necessárias para fornecer preenchimentos por
+        email.
+    </string>
+    <string name="label_title">Título:</string>
+    <string name="label_book_cover">Capa do livro</string>
+    <string name="label_wait">Aguarde</string>
+    <string name="label_load">Carregar</string>
+    <string name="label_back">Voltar</string>
+    <string name="label_edit">Editar</string>
+    <string name="label_cancel">Cancelar</string>
+    <string name="label_save">Salvar</string>
+    <string name="hint_book_title">Informe o título do livro</string>
+    <string name="label_description">Descrição:</string>
+    <string name="label_publish_year">Ano de publicação:</string>
+    <string name="label_book_cover_url">URL da capa do livro:</string>
+    <string name="label_author">Autor:</string>
+    <string name="msg_book_title_required">O título do livro é obritatório!</string>
+    <string name="msg_book_description_required">A descrição do livro é obrigatória!</string>
+    <string name="hint_book_descriptions">"Informe a descrição do livro "</string>
+    <string name="hint_publish_year">Informe o ano de publicação do livro</string>
+    <string name="hint_book_cover_url">Informe a URL da capa do livro</string>
+    <string name="hint_book_author">Informe o autor do livro</string>
+    <string name="msg_publish_year_required">O ano de publicação é obrigatório!</string>
+    <string name="msg_book_cover_required">A capa do livro é obrigatória!</string>
+    <string name="msg_book_cover_must_be_loaded">A capa do livro precisa ser carregada!</string>
+    <string name="msg_loading_image">Carregando a imagem\\.\\.\\.</string>
+    <string name="msg_author_required">O autor do livro é obrigatório!</string>
+    <string name="msg_question_delete_book">Deseja realmente excluir este livro?</string>
+</resources>

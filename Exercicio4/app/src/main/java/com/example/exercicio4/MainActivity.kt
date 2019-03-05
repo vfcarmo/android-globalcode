@@ -2,25 +2,36 @@ package com.example.exercicio4
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.os.Parcelable
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.exercicio4.util.ImageUtils
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
+import org.jetbrains.anko.alert
+import org.jetbrains.anko.cancelButton
+import org.jetbrains.anko.longToast
+import org.jetbrains.anko.okButton
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     companion object {
-        const val RESULT = "RESULT"
+
+        const val BOOKS_PARCELABLE = "BOOKS_PARCELABLE"
 
         const val BOOK_PARCELABLE = "BOOK_PARCELABLE"
+
+        const val RESULT = "RESULT"
 
         const val DETAILS_REQUEST_CODE = 1
 
@@ -28,26 +39,44 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     private var books: MutableList<Book>? = null
+    private var book: Book? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
-
         if (books == null) {
-            books = mutableListOf(Book(
-                "https://assets.xtechcommerce.com/uploads/images/medium/85101aecd507edc67c02b722e8788713.jpg",
-                null,"Flamengo", "CRF", 1981, "Mundial e Libertadores"))
+            books = mutableListOf(
+                Book(
+                    Book.nextVal(),
+                "https://logodetimes.com/times/flamengo/logo-flamengo-256.png",
+                    null,"Flamengo", "CRF", 1981, "Mundial e Libertadores"))
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = BookAdapter(books!!) {
+        recyclerView.adapter = BookAdapter(books!!, onClickListener = {
 
             val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra(BOOK_PARCELABLE, it)
+            intent.putExtra(RESULT, it)
             startActivityForResult(intent, DETAILS_REQUEST_CODE)
-        }
+        }, onLongClickListener = {
+
+            var result = false
+
+            alert(message = getString(R.string.msg_question_delete_book), title = it.title) {
+                okButton { _ ->
+
+                    books?.remove(it)
+                    recyclerView?.adapter?.notifyDataSetChanged()
+
+                    result = true
+                }
+                cancelButton { result = false }
+            }.show()
+            true
+        })
+
 
         fab.setOnClickListener { view ->
             val intent = Intent(this, EditActivity::class.java)
@@ -64,8 +93,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {
-        outState?.let {
-
+        outState?.let { saveState ->
+            saveState.putParcelable(BOOK_PARCELABLE, book)
+            val state = recyclerView.layoutManager!!.onSaveInstanceState()
+            state?.let {
+                saveState.putParcelable(BOOKS_PARCELABLE, it)
+            }
         }
         super.onSaveInstanceState(outState, outPersistentState)
     }
@@ -73,8 +106,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
         super.onRestoreInstanceState(savedInstanceState)
 
-        savedInstanceState?.let {
-
+        savedInstanceState?.let { savedState ->
+            this.book = savedState.getParcelable(BOOK_PARCELABLE)
+            val state = savedState.getParcelable(BOOKS_PARCELABLE) as Parcelable?
+            state?.let {
+                recyclerView.layoutManager!!.onRestoreInstanceState(it)
+            }
         }
     }
 
@@ -82,14 +119,15 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         if (resultCode == Activity.RESULT_OK && data != null) {
             when (requestCode) {
+                DETAILS_REQUEST_CODE -> {
+                    val book: Book? = data.getParcelableExtra(RESULT)
+                    save(book)
+                    data.removeExtra(RESULT)
+                }
                 EDIT_REQUEST_CODE -> {
                     val book: Book? = data.getParcelableExtra(RESULT)
-
-                    book?.let {
-                        books?.removeAt(0)
-                        books?.add(it)
-                        recyclerView.adapter?.notifyDataSetChanged()
-                    }
+                    save(book)
+                    data.removeExtra(RESULT)
                 }
             }
         }
@@ -144,5 +182,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    private fun save(book: Book?) {
+        book?.let {
+            books?.remove(book)
+
+            val savedBook = preSave(it)
+
+            books?.add(savedBook)
+            recyclerView.adapter?.notifyDataSetChanged()
+        }
+    }
+
+    private fun preSave(book: Book): Book {
+        if (book.id == -1) {
+            book.id = Book.nextVal()
+        }
+        return book
     }
 }
