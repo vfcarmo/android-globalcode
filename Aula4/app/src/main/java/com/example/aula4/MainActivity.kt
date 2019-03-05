@@ -13,8 +13,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import org.jetbrains.anko.doAsync
-import org.jetbrains.anko.uiThread
 import java.lang.ref.WeakReference
 import java.net.URL
 
@@ -118,13 +116,6 @@ class MainActivity : AppCompatActivity() {
         Toast.makeText(this, "Async Task", Toast.LENGTH_LONG).show()
 
         MyAsyncTask(this).execute()
-
-        doAsync {
-            // long operation
-            uiThread {
-
-            }
-        }
     }
 
 }
