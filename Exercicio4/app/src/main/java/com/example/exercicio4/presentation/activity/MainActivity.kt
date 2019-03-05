@@ -1,26 +1,25 @@
-package com.example.exercicio4
+package com.example.exercicio4.presentation.activity
 
 import android.app.Activity
 import android.content.Intent
-import android.graphics.Bitmap
 import android.os.Bundle
 import android.os.Parcelable
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.exercicio4.util.ImageUtils
+import com.example.exercicio4.R
+import com.example.exercicio4.domain.entity.Book
+import com.example.exercicio4.presentation.adapter.BookAdapter
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
-import org.jetbrains.anko.longToast
 import org.jetbrains.anko.okButton
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -50,41 +49,32 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             books = mutableListOf(
                 Book(
                     Book.nextVal(),
-                "https://logodetimes.com/times/flamengo/logo-flamengo-256.png",
-                    null,"Flamengo", "CRF", 1981, "Mundial e Libertadores"))
+                    "https://logodetimes.com/times/flamengo/logo-flamengo-256.png",
+                    null, "Flamengo", "CRF", 1981, "Mundial e Libertadores"
+                )
+            )
         }
 
         recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = BookAdapter(books!!, onClickListener = {
-
-            val intent = Intent(this, DetailsActivity::class.java)
-            intent.putExtra(RESULT, it)
-            startActivityForResult(intent, DETAILS_REQUEST_CODE)
+        recyclerView.adapter = BookAdapter(books!!,
+            onClickListener = {
+                edit(it)
         }, onLongClickListener = {
-
-            var result = false
-
-            alert(message = getString(R.string.msg_question_delete_book), title = it.title) {
-                okButton { _ ->
-
-                    books?.remove(it)
-                    recyclerView?.adapter?.notifyDataSetChanged()
-
-                    result = true
-                }
-                cancelButton { result = false }
-            }.show()
-            true
+                delete(it)
         })
-
 
         fab.setOnClickListener { view ->
             val intent = Intent(this, EditActivity::class.java)
-            startActivityForResult(intent, EDIT_REQUEST_CODE)
+            startActivityForResult(
+                intent,
+                EDIT_REQUEST_CODE
+            )
         }
 
         val toggle = ActionBarDrawerToggle(
-            this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
+            this, drawer_layout, toolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close
         )
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
@@ -201,4 +191,26 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         return book
     }
+
+    private fun edit(book: Book) {
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(RESULT, book)
+        startActivityForResult(
+            intent,
+            DETAILS_REQUEST_CODE
+        )
+    }
+
+    private fun delete(book: Book): Boolean {
+        alert(message = getString(R.string.msg_question_delete_book), title = book.title) {
+            okButton { _ ->
+
+                books?.remove(book)
+                recyclerView?.adapter?.notifyDataSetChanged()
+            }
+            cancelButton { }
+        }.show()
+        return true
+    }
+
 }

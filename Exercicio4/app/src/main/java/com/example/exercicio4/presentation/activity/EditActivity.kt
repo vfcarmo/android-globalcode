@@ -1,4 +1,4 @@
-package com.example.exercicio4
+package com.example.exercicio4.presentation.activity
 
 import android.app.Activity
 import android.app.ProgressDialog
@@ -9,6 +9,8 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.exercicio4.R
+import com.example.exercicio4.domain.entity.Book
 import com.example.exercicio4.util.ImageUtils
 import kotlinx.android.synthetic.main.activity_edit.*
 import org.jetbrains.anko.doAsync
@@ -146,7 +148,15 @@ class EditActivity : AppCompatActivity() {
             val description = etDescription.text.toString()
 
             return if (isValid(title, author, publishYear, description, bookCover)) {
-                Book(id, bookCover, cover, title, author, publishYear.toInt(), description)
+                Book(
+                    id,
+                    bookCover,
+                    cover,
+                    title,
+                    author,
+                    publishYear.toInt(),
+                    description
+                )
             } else {
                 null
             }

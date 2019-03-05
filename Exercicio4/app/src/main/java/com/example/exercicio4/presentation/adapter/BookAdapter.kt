@@ -1,9 +1,11 @@
-package com.example.exercicio4
+package com.example.exercicio4.presentation.adapter
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.exercicio4.R
+import com.example.exercicio4.domain.entity.Book
 import kotlinx.android.synthetic.main.books.view.*
 
 class BookAdapter(

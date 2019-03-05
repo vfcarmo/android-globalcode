@@ -1,4 +1,4 @@
-package com.example.exercicio4
+package com.example.exercicio4.domain.entity
 
 import android.graphics.Bitmap
 import android.os.Parcel

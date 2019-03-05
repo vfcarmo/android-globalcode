@@ -35,7 +35,7 @@
     <string name="msg_publish_year_required">O ano de publicação é obrigatório!</string>
     <string name="msg_book_cover_required">A capa do livro é obrigatória!</string>
     <string name="msg_book_cover_must_be_loaded">A capa do livro precisa ser carregada!</string>
-    <string name="msg_loading_image">Carregando a imagem\\.\\.\\.</string>
+    <string name="msg_loading_image">Carregando a imagem\.\.\.</string>
     <string name="msg_author_required">O autor do livro é obrigatório!</string>
     <string name="msg_question_delete_book">Deseja realmente excluir este livro?</string>
 </resources>

@@ -1,4 +1,4 @@
-package com.example.exercicio4
+package com.example.exercicio4.presentation.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -6,6 +6,8 @@ import android.os.Bundle
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.exercicio4.R
+import com.example.exercicio4.domain.entity.Book
 import kotlinx.android.synthetic.main.activity_details.*
 
 class DetailsActivity : AppCompatActivity() {
@@ -29,7 +31,9 @@ class DetailsActivity : AppCompatActivity() {
         btEdit.setOnClickListener {
             val intent = Intent(this, EditActivity::class.java)
             intent.putExtra(MainActivity.RESULT, book)
-            startActivityForResult(intent, MainActivity.EDIT_REQUEST_CODE)
+            startActivityForResult(intent,
+                MainActivity.EDIT_REQUEST_CODE
+            )
         }
 
         btCancel.setOnClickListener {
