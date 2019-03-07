@@ -24,9 +24,16 @@ import android.widget.TextView
 import java.util.ArrayList
 import android.Manifest.permission.READ_CONTACTS
 import android.content.Intent
+import android.graphics.Bitmap
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.exercicio4.R
+import com.example.exercicio4.domain.entity.User
+import com.example.exercicio4.util.ImageUtils
 
 import kotlinx.android.synthetic.main.activity_login.*
+import org.jetbrains.anko.doAsync
+import org.jetbrains.anko.uiThread
 
 /**
  * A login screen that offers login via email/password.
@@ -285,6 +292,15 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
             if (success!!) {
                 val intent = Intent(context, MainActivity::class.java)
+
+                val user = DUMMY_CREDENTIALS
+                    .map { it.split(":") }
+                    .firstOrNull { it[0] == mEmail }
+                    ?.let {
+                        // Account exists, return user.
+                        User(PROFILE_IMAGE_URL, it[2], it[0])
+                    }
+                intent.putExtra(USER, user)
                 startActivity(intent)
                 finish()
             } else {
@@ -301,6 +317,11 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
 
     companion object {
 
+        private const val PROFILE_IMAGE_URL =
+            "https://lh3.googleusercontent.com/-ttRmPU9UoJI/W5He_pTsbII/AAAAAAAABQo/zykA4Q-9nMk1_R2VHkVHEyOdS2ti9haUgCEwYBhgL/w140-h140-p/IMG_20180728_212636266.jpg"
+
+        const val USER = "USER"
+
         /**
          * Id to identity READ_CONTACTS permission request.
          */
@@ -310,6 +331,7 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
          * A dummy authentication store containing known user names and passwords.
          * TODO: remove after connecting to a real authentication system.
          */
-        private val DUMMY_CREDENTIALS = arrayOf("foo@example.com:hello", "bar@example.com:world")
+        private val DUMMY_CREDENTIALS =
+            arrayOf("vfcarmo@gmail.com:123456:Vítor Franco do Carmo")
     }
 }

@@ -7,13 +7,19 @@ import android.os.Parcelable
 import android.os.PersistableBundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.engine.DiskCacheStrategy
 import com.example.exercicio4.R
 import com.example.exercicio4.domain.entity.Book
+import com.example.exercicio4.domain.entity.User
 import com.example.exercicio4.presentation.adapter.BookAdapter
+import com.example.exercicio4.util.ImageUtils
 import com.google.android.material.navigation.NavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
@@ -39,6 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private var books: MutableList<Book>? = null
     private var book: Book? = null
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +87,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+
+        val navHeader = nav_view.getHeaderView(0)
+
+        val ivPhoto: ImageView = navHeader.findViewById(R.id.ivPhoto)
+        val tvName: TextView = navHeader.findViewById(R.id.tvName)
+        val tvEmail: TextView = navHeader.findViewById(R.id.tvEmail)
+
+        this.user = intent.getParcelableExtra(LoginActivity.USER)
+
+        Glide.with(this).load(user.photoUrl)
+            .crossFade()
+            .thumbnail(0.5f)
+            .bitmapTransform(ImageUtils(this))
+            .diskCacheStrategy(DiskCacheStrategy.ALL)
+            .into(ivPhoto)
+        tvName.text = user.name
+        tvEmail.text = user.email
     }
 
     override fun onSaveInstanceState(outState: Bundle?, outPersistentState: PersistableBundle?) {

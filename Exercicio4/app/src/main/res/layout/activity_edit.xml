@@ -7,30 +7,6 @@
         android:layout_height="match_parent"
         tools:context=".presentation.activity.EditActivity">
 
-    <TextView
-            android:text="@string/label_book_cover_url"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:id="@+id/textView5"
-            app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/ivBookCover"/>
-    <EditText
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:inputType="textPersonName"
-            android:ems="10"
-            android:id="@+id/etBookCover"
-            android:hint="@string/hint_book_cover_url"
-            tools:ignore="Autofill"
-            android:layout_marginStart="8dp"
-            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toStartOf="@+id/btLoadPhoto" android:layout_marginRight="8dp"/>
     <ImageView
             android:layout_width="96dp"
             android:layout_height="110dp" app:srcCompat="@drawable/ic_menu_camera"
@@ -61,6 +37,37 @@
             tools:ignore="Autofill"
             android:layout_marginBottom="8dp" app:layout_constraintBottom_toTopOf="@+id/textView5"/>
     <TextView
+            android:text="@string/label_book_cover_url"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_marginLeft="8dp" android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/ivBookCover"/>
+    <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/etBookCover"
+            android:hint="@string/hint_book_cover_url"
+            tools:ignore="Autofill"
+            android:layout_marginStart="8dp"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toStartOf="@+id/btLoadPhoto" android:layout_marginRight="8dp"/>
+    <Button
+            android:text="@string/label_load"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btLoadPhoto" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
+    <TextView
             android:text="@string/label_author"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -71,7 +78,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp" app:layout_constraintTop_toBottomOf="@+id/etBookCover"/>
     <EditText
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="textPersonName"
             android:ems="10"
@@ -94,7 +101,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/etAuthor"/>
     <EditText
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="45dp"
             android:inputType="number"
             android:ems="10"
@@ -118,7 +125,7 @@
             android:layout_marginTop="8dp"
             app:layout_constraintTop_toBottomOf="@+id/etPublishYear"/>
     <EditText
-            android:layout_width="395dp"
+            android:layout_width="0dp"
             android:layout_height="66dp"
             android:inputType="textMultiLine"
             android:ems="10"
@@ -159,11 +166,4 @@
             android:layout_marginEnd="8dp" android:layout_marginRight="8dp"
             app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="8dp"
             android:layout_marginStart="8dp" android:visibility="invisible"/>
-    <Button
-            android:text="@string/label_load"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/btLoadPhoto" android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/textView5" app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginEnd="8dp" android:layout_marginRight="8dp"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
