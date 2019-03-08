@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.os.PersistableBundle
 import android.text.TextUtils
 import android.widget.Button
 import android.widget.EditText
