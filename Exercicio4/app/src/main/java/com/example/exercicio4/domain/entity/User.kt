@@ -5,11 +5,13 @@ import android.os.Parcel
 import android.os.Parcelable
 
 data class User(
+    val photo: Bitmap?,
     val photoUrl: String?,
     val name: String?,
     val email: String?
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readParcelable(Bitmap::class.java.classLoader),
         parcel.readString(),
         parcel.readString(),
         parcel.readString()
@@ -17,6 +19,7 @@ data class User(
     }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeParcelable(photo, flags)
         parcel.writeString(photoUrl)
         parcel.writeString(name)
         parcel.writeString(email)

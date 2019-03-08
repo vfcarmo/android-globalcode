@@ -38,4 +38,5 @@
     <string name="msg_loading_image">Carregando a imagem\.\.\.</string>
     <string name="msg_author_required">O autor do livro é obrigatório!</string>
     <string name="msg_question_delete_book">Deseja realmente excluir este livro?</string>
+    <string name="content_load_photo">Carrega a imagem da foto do usuário</string>
 </resources>

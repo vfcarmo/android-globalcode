@@ -19,22 +19,24 @@ import org.jetbrains.anko.uiThread
 
 class EditActivity : AppCompatActivity() {
 
+    companion object {
+        const val BOOK_COVER = "BOOK_COVER"
+    }
+
     private var book: Book? = null
 
-    private lateinit var editHelper: EditHelper
+    private var cover: Bitmap? = null
 
-    private lateinit var etBookCover: EditText
+    private lateinit var editHelper: EditHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit)
 
-        this.etBookCover = findViewById(R.id.etBookCover)
-
         this.editHelper = EditHelper(this)
 
         this.book = intent.getParcelableExtra(MainActivity.RESULT)
-        book?.let {
+        this.book?.let {
             editHelper.bindView(it)
             intent.removeExtra(MainActivity.RESULT)
         }
@@ -48,23 +50,13 @@ class EditActivity : AppCompatActivity() {
         }
     }
 
-    private fun salve() {
-        this.book = editHelper.getModel()
-
-        book?.let {
-            intent.putExtra(MainActivity.RESULT, it)
-            setResult(Activity.RESULT_OK, intent)
-            finish()
-        }
-    }
-
     override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.let {
-            if (book != null) {
-
-                it.putParcelable(MainActivity.BOOK_PARCELABLE, book)
-            } else {
-                it.remove(MainActivity.BOOK_PARCELABLE)
+        outState?.let {saveState ->
+            book?.let {
+                saveState.putParcelable(MainActivity.BOOK_PARCELABLE, it)
+            }
+            cover?.let {
+                saveState.putParcelable(BOOK_COVER, it)
             }
         }
         super.onSaveInstanceState(outState)
@@ -75,11 +67,28 @@ class EditActivity : AppCompatActivity() {
 
         savedInstanceState?.let { savedState ->
             this.book = savedState.getParcelable(MainActivity.BOOK_PARCELABLE)
-            book?.let { editHelper.bindView(it) }
+            book?.let {
+                editHelper.bindView(it)
+                savedState.remove(MainActivity.BOOKS_PARCELABLE)
+            }
+            this.cover = savedState.getParcelable(BOOK_COVER)
+            this.cover?.let {
+                editHelper.bindView(it)
+                savedState.remove(BOOK_COVER)
+            }
         }
     }
 
-    class EditHelper(private val context: Activity) {
+    private fun salve() {
+        this.book = editHelper.getModel()
+        this.book?.let {
+            intent.putExtra(MainActivity.RESULT, it)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+        }
+    }
+
+    inner class EditHelper(private val context: Activity) {
 
         private val tvId: TextView = context.findViewById(R.id.tvId)
         private val ivBookCover: ImageView = context.findViewById(R.id.ivBookCover)
@@ -90,7 +99,6 @@ class EditActivity : AppCompatActivity() {
         private val etDescription: EditText = context.findViewById(R.id.etDescription)
         private val btLoadPhoto: Button = context.findViewById(R.id.btLoadPhoto)
 
-        private var cover: Bitmap? = null
         private var bookCoverUrl: String? = null
 
         private lateinit var progresDialog: ProgressDialog
@@ -115,7 +123,7 @@ class EditActivity : AppCompatActivity() {
                 val bitmap = ImageUtils.loadImage(bookCoverUrl)
 
                 bitmap?.let {
-                    this@EditHelper.cover = it
+                    this@EditActivity.cover = it
                     this@EditHelper.bookCoverUrl = bookCoverUrl
 
                     uiThread {
@@ -128,7 +136,7 @@ class EditActivity : AppCompatActivity() {
         }
 
         fun bindView(book: Book) {
-            this.cover = book.cover
+            this@EditActivity.cover = book.cover
             this.bookCoverUrl = book.coverUrl
             tvId.text = book.id.toString()
             ivBookCover.setImageBitmap(cover)
@@ -137,6 +145,10 @@ class EditActivity : AppCompatActivity() {
             etAuthor.setText(book.author)
             etPublishYear.setText(book.publishYear.toString())
             etDescription.setText(book.description)
+        }
+
+        fun bindView(cover: Bitmap) {
+            ivBookCover.setImageBitmap(cover)
         }
 
         fun getModel(): Book? {

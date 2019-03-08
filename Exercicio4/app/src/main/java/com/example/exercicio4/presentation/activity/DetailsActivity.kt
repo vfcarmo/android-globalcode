@@ -41,6 +41,27 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.let { saveState ->
+            book?.let {
+                saveState.putParcelable(MainActivity.BOOK_PARCELABLE, it)
+            }
+        }
+        super.onSaveInstanceState(outState)
+    }
+
+    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
+        super.onRestoreInstanceState(savedInstanceState)
+
+        savedInstanceState?.let { savedState ->
+            this.book = savedState.getParcelable(MainActivity.BOOK_PARCELABLE)
+            book?.let {
+                detailsHelper.bindView(it)
+                savedState.remove(MainActivity.BOOKS_PARCELABLE)
+            }
+        }
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         if (resultCode == Activity.RESULT_OK && data != null) {
@@ -59,28 +80,7 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
-    override fun onSaveInstanceState(outState: Bundle?) {
-        outState?.let {
-            if (book != null) {
-
-                it.putParcelable(MainActivity.BOOK_PARCELABLE, book)
-            } else {
-                it.remove(MainActivity.BOOK_PARCELABLE)
-            }
-        }
-        super.onSaveInstanceState(outState)
-    }
-
-    override fun onRestoreInstanceState(savedInstanceState: Bundle?) {
-        super.onRestoreInstanceState(savedInstanceState)
-
-        savedInstanceState?.let { savedState ->
-            this.book = savedState.getParcelable(MainActivity.BOOK_PARCELABLE)
-            book?.let { detailsHelper.bindView(it) }
-        }
-    }
-
-    class DetailsHelper(context: Activity) {
+    inner class DetailsHelper(context: Activity) {
 
         private val tvId: TextView = context.findViewById(R.id.tvId)
         private val ivBookCover: ImageView = context.findViewById(R.id.ivBookCover)

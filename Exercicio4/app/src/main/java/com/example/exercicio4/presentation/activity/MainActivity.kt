@@ -26,6 +26,7 @@ import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import org.jetbrains.anko.alert
 import org.jetbrains.anko.cancelButton
+import org.jetbrains.anko.longToast
 import org.jetbrains.anko.okButton
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -95,6 +96,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val tvEmail: TextView = navHeader.findViewById(R.id.tvEmail)
 
         this.user = intent.getParcelableExtra(LoginActivity.USER)
+
+        longToast("Seja bem vindo ${user.name}!!!")
 
         Glide.with(this).load(user.photoUrl)
             .crossFade()
@@ -167,6 +170,11 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.action_settings -> return true
+            R.id.logoff -> {
+                startActivity(Intent(this, LoginActivity::class.java))
+                finish()
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }

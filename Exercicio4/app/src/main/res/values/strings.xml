@@ -42,4 +42,17 @@
     <string name="msg_publish_year_required">Publish year is required!</string>
     <string name="msg_book_description_required">Book description is required!</string>
     <string name="msg_question_delete_book">Do you really want to delete this book?</string>
+    <string name="content_load_photo">Loads the user photo image</string>
+    <string name="content_user_photo">User photo</string>
+    <string name="label_user_name">User Name:</string>
+    <string name="hint_user_name">Informe your name</string>
+    <string name="label_email_address">Email Address:</string>
+    <string name="hint_email_address">Inform your email address</string>
+    <string name="label_photo_url">Photo URL:</string>
+    <string name="hint_photo_url">Inform the path to your photo</string>
+    <string name="msg_user_photo_required">User photo is required!</string>
+    <string name="msg_email_address_required">Email address is required</string>
+    <string name="msg_user_name_required">User name is required!</string>
+    <string name="msg_user_photo_must_be_loaded">The user photo must be loaded!</string>
+    <string name="mnu_log_off">Log off</string>
 </resources>

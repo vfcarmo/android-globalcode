@@ -1,17 +1,17 @@
 package com.example.exercicio4.presentation.activity
 
+import android.Manifest.permission.READ_CONTACTS
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.annotation.TargetApi
-import android.content.pm.PackageManager
-import com.google.android.material.snackbar.Snackbar
-import androidx.appcompat.app.AppCompatActivity
+import android.app.Activity
 import android.app.LoaderManager.LoaderCallbacks
 import android.content.CursorLoader
+import android.content.Intent
 import android.content.Loader
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.net.Uri
-import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -20,29 +20,44 @@ import android.view.View
 import android.view.inputmethod.EditorInfo
 import android.widget.ArrayAdapter
 import android.widget.TextView
-
-import java.util.ArrayList
-import android.Manifest.permission.READ_CONTACTS
-import android.content.Intent
-import android.graphics.Bitmap
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.engine.DiskCacheStrategy
+import androidx.appcompat.app.AppCompatActivity
 import com.example.exercicio4.R
 import com.example.exercicio4.domain.entity.User
-import com.example.exercicio4.util.ImageUtils
-
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.activity_login.*
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
+import java.util.*
 
 /**
  * A login screen that offers login via email/password.
  */
 class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private var mAuthTask: UserLoginTask? = null
+
+
+    companion object {
+
+        const val CREATE_USER_REQUEST_CODE = 1
+
+        const val RESULT = "RESULT"
+
+        const val USER = "USER"
+
+        private const val PROFILE_IMAGE_URL =
+            "https://lh3.googleusercontent.com/-ttRmPU9UoJI/W5He_pTsbII/AAAAAAAABQo/zykA4Q-9nMk1_R2VHkVHEyOdS2ti9haUgCEwYBhgL/w140-h140-p/IMG_20180728_212636266.jpg"
+
+        /**
+         * Id to identity READ_CONTACTS permission request.
+         */
+        private val REQUEST_READ_CONTACTS = 0
+
+        /**
+         * A dummy authentication store containing known user names and passwords.
+         * TODO: remove after connecting to a real authentication system.
+         */
+        private val DUMMY_CREDENTIALS =
+            arrayOf("vfcarmo@gmail.com:123456:Vítor Franco do Carmo")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +73,32 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         })
 
         email_sign_in_button.setOnClickListener { attemptLogin() }
+    }
+
+    /**
+     * Callback received when a permissions request has been completed.
+     */
+    override fun onRequestPermissionsResult(
+        requestCode: Int, permissions: Array<String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == REQUEST_READ_CONTACTS) {
+            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                populateAutoComplete()
+            }
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (resultCode == Activity.RESULT_OK && data != null) {
+            when (requestCode) {
+                CREATE_USER_REQUEST_CODE -> {
+                    val user: User = data.getParcelableExtra(RESULT)
+                    startApplication(user)
+                    data.removeExtra(RESULT)
+                }
+            }
+        }
     }
 
     private fun populateAutoComplete() {
@@ -77,10 +118,14 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(email, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                .setAction(android.R.string.ok,
-                    { requestPermissions(arrayOf(READ_CONTACTS),
+                .setAction(
+                    android.R.string.ok
+                ) {
+                    requestPermissions(
+                        arrayOf(READ_CONTACTS),
                         REQUEST_READ_CONTACTS
-                    ) })
+                    )
+                }
         } else {
             requestPermissions(arrayOf(READ_CONTACTS),
                 REQUEST_READ_CONTACTS
@@ -90,29 +135,11 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
     }
 
     /**
-     * Callback received when a permissions request has been completed.
-     */
-    override fun onRequestPermissionsResult(
-        requestCode: Int, permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        if (requestCode == REQUEST_READ_CONTACTS) {
-            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                populateAutoComplete()
-            }
-        }
-    }
-
-
-    /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
     private fun attemptLogin() {
-        if (mAuthTask != null) {
-            return
-        }
 
         // Reset errors.
         email.error = null
@@ -151,10 +178,65 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true)
-            mAuthTask = UserLoginTask(this, emailStr, passwordStr)
-            mAuthTask!!.execute(null as Void?)
+
+            doAsync {
+
+                val result = verifyLogin(emailStr, passwordStr)
+
+                uiThread {
+
+                    if (result != null) {
+
+                        if (result) {
+                            val user = DUMMY_CREDENTIALS
+                                .map { it.split(":") }
+                                .first { it[0] == emailStr }
+                                .let {
+                                    // Account exists, return user.
+                                    User(null, PROFILE_IMAGE_URL, it[2], it[0])
+                                }
+                            startApplication(user)
+                        } else {
+                            showProgress(false)
+                            password.error = getString(R.string.error_incorrect_password)
+                            password.requestFocus()
+                        }
+                    } else {
+                        showProgress(false)
+
+                        val user = User(null, null, null, emailStr)
+
+                        val intent = Intent(this@LoginActivity, CreateUserActivity::class.java)
+                        intent.putExtra(RESULT, user)
+                        startActivityForResult(intent, CREATE_USER_REQUEST_CODE)
+                    }
+                }
+            }
         }
     }
+
+private fun startApplication(user: User) {
+    val intent = Intent(this, MainActivity::class.java)
+    intent.putExtra(USER, user)
+    startActivity(intent)
+    finish()
+}
+
+private fun verifyLogin(mEmail: String, mPassword: String): Boolean? {
+    try {
+        // Simulate network access.
+        Thread.sleep(1000)
+    } catch (e: InterruptedException) {
+        return false
+    }
+    return DUMMY_CREDENTIALS
+        .map { it.split(":") }
+        .firstOrNull { it[0] == mEmail }
+        ?.let {
+            // Account exists, return true if the password matches.
+            it[1] == mPassword
+        }
+}
 
     private fun isEmailValid(email: String): Boolean {
         //TODO: Replace this with your own logic
@@ -259,79 +341,4 @@ class LoginActivity : AppCompatActivity(), LoaderCallbacks<Cursor> {
         val IS_PRIMARY = 1
     }
 
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-    inner class UserLoginTask internal constructor(private val context: LoginActivity, private val mEmail: String, private val mPassword: String) :
-        AsyncTask<Void, Void, Boolean>() {
-
-        override fun doInBackground(vararg params: Void): Boolean? {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000)
-            } catch (e: InterruptedException) {
-                return false
-            }
-
-            return DUMMY_CREDENTIALS
-                .map { it.split(":") }
-                .firstOrNull { it[0] == mEmail }
-                ?.let {
-                    // Account exists, return true if the password matches.
-                    it[1] == mPassword
-                }
-                ?: true
-        }
-
-        override fun onPostExecute(success: Boolean?) {
-            mAuthTask = null
-            showProgress(false)
-
-            if (success!!) {
-                val intent = Intent(context, MainActivity::class.java)
-
-                val user = DUMMY_CREDENTIALS
-                    .map { it.split(":") }
-                    .firstOrNull { it[0] == mEmail }
-                    ?.let {
-                        // Account exists, return user.
-                        User(PROFILE_IMAGE_URL, it[2], it[0])
-                    }
-                intent.putExtra(USER, user)
-                startActivity(intent)
-                finish()
-            } else {
-                password.error = getString(R.string.error_incorrect_password)
-                password.requestFocus()
-            }
-        }
-
-        override fun onCancelled() {
-            mAuthTask = null
-            showProgress(false)
-        }
-    }
-
-    companion object {
-
-        private const val PROFILE_IMAGE_URL =
-            "https://lh3.googleusercontent.com/-ttRmPU9UoJI/W5He_pTsbII/AAAAAAAABQo/zykA4Q-9nMk1_R2VHkVHEyOdS2ti9haUgCEwYBhgL/w140-h140-p/IMG_20180728_212636266.jpg"
-
-        const val USER = "USER"
-
-        /**
-         * Id to identity READ_CONTACTS permission request.
-         */
-        private val REQUEST_READ_CONTACTS = 0
-
-        /**
-         * A dummy authentication store containing known user names and passwords.
-         * TODO: remove after connecting to a real authentication system.
-         */
-        private val DUMMY_CREDENTIALS =
-            arrayOf("vfcarmo@gmail.com:123456:Vítor Franco do Carmo")
-    }
 }
