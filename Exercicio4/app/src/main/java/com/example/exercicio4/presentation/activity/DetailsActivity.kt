@@ -20,7 +20,7 @@ class DetailsActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_details)
 
-        this.detailsHelper = DetailsHelper(this)
+        this.detailsHelper = DetailsHelper()
 
         this.book = intent.getParcelableExtra(MainActivity.RESULT)
         this.book?.let {
@@ -80,14 +80,7 @@ class DetailsActivity : AppCompatActivity() {
         }
     }
 
-    inner class DetailsHelper(context: Activity) {
-
-        private val tvId: TextView = context.findViewById(R.id.tvId)
-        private val ivBookCover: ImageView = context.findViewById(R.id.ivBookCover)
-        private val tvTitle: TextView = context.findViewById(R.id.tvTitle)
-        private val tvAuthor: TextView = context.findViewById(R.id.tvAuthor)
-        private val tvPublishYear: TextView = context.findViewById(R.id.tvPublishYear)
-        private val tvDescription: TextView = context.findViewById(R.id.tvDescription)
+    inner class DetailsHelper {
 
         fun bindView(book: Book) {
             tvId.text = book.id.toString()

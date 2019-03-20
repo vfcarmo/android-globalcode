@@ -90,15 +90,6 @@ class EditActivity : AppCompatActivity() {
 
     inner class EditHelper(private val context: Activity) {
 
-        private val tvId: TextView = context.findViewById(R.id.tvId)
-        private val ivBookCover: ImageView = context.findViewById(R.id.ivBookCover)
-        private val etBookCover: EditText = context.findViewById(R.id.etBookCover)
-        private val etTitle: EditText = context.findViewById(R.id.etTitle)
-        private val etAuthor: EditText = context.findViewById(R.id.etAuthor)
-        private val etPublishYear: EditText = context.findViewById(R.id.etPublishYear)
-        private val etDescription: EditText = context.findViewById(R.id.etDescription)
-        private val btLoadPhoto: Button = context.findViewById(R.id.btLoadPhoto)
-
         private var bookCoverUrl: String? = null
 
         private lateinit var progresDialog: ProgressDialog

@@ -5,9 +5,7 @@ import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.text.TextUtils
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import com.example.exercicio4.R
 import com.example.exercicio4.domain.entity.User
@@ -18,9 +16,11 @@ import org.jetbrains.anko.uiThread
 
 class CreateUserActivity : AppCompatActivity() {
 
-    private var user: User? = null
-
     private lateinit var createUserHelper: CreateUserHelper
+
+    private lateinit var rootView: View
+
+    private var user: User? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -68,16 +68,6 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     inner class CreateUserHelper(private val context: Activity) {
-
-        private val ivPhoto: ImageView = context.findViewById(R.id.ivPhoto)
-
-        private val etName: EditText = context.findViewById(R.id.etName)
-
-        private val etEmail: EditText = context.findViewById(R.id.etEmail)
-
-        private val etPhoto: EditText = context.findViewById(R.id.etPhoto)
-
-        private val btLoad: Button = context.findViewById(R.id.btLoad)
 
         private var photo: Bitmap? = null
 
