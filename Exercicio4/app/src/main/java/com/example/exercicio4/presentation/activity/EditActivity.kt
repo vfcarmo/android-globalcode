@@ -4,10 +4,6 @@ import android.app.Activity
 import android.app.ProgressDialog
 import android.graphics.Bitmap
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.example.exercicio4.R
 import com.example.exercicio4.domain.entity.Book
