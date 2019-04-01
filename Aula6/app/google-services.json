@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "658122639473",
+    "firebase_url": "https://aula6-cf36d.firebaseio.com",
+    "project_id": "aula6-cf36d",
+    "storage_bucket": "aula6-cf36d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:658122639473:android:8e48cb048c0b884b",
+        "android_client_info": {
+          "package_name": "com.example.aula6"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "658122639473-v5975tv9j1gkpfd0ps24mq5b0fhovro4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBg5oFirXBldbok-zlofKvxsK07wjRsc7I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

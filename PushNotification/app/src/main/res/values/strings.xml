@@ -1,0 +1,30 @@
+<resources>
+    <string name="app_name">Push Notification</string>
+    <string name="hint_search">Search</string>
+    <string name="hint_notification_body">Notification Body</string>
+    <string name="hint_notification_title">Notification Title</string>
+    <string name="placeholder_notification_title">Lorem ipsum dolor sit amet</string>
+    <string name="placeholder_notification_body">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras ac congue dolor. Aenean nec imperdiet ipsum. Nam
+        blandit porttitor gravida. Sed pretium mauris quis mi luctus, at porta massa consectetur. Morbi gravida libero
+        non lorem vestibulum, eu laoreet odio euismod. Vestibulum at arcu vitae libero scelerisque pharetra sit amet ac
+        massa. Integer porttitor nisi nec lorem iaculis, sit amet facilisis augue rhoncus. Vivamus sed turpis purus.
+        Suspendisse commodo lacus at turpis elementum venenatis. In magna nunc, finibus sit amet semper vel, tincidunt
+        a lorem. Suspendisse in vehicula nisi, ornare condimentum tortor. Aenean porttitor at magna vulputate pulvinar.
+    </string>
+    <string name="label_glide">Glide</string>
+    <string name="label_picasso">Picasso</string>
+    <string name="label_include_action_buttons">Include Action Buttons</string>
+    <string name="label_none">None</string>
+    <string name="label_address">Address</string>
+    <string name="label_places">Places</string>
+    <string name="label_create_push_notification">Create Push Notification</string>
+    <string name="label_clear_inputs">Clear inputs</string>
+    <string name="label_add_place_holder">Add Place Holder</string>
+    <string name="msg_dialog_add_placeholder">Do you want to add placeholder onto input texts?</string>
+    <string name="title_dialog_add_placeholder">Add placeholder</string>
+    <string name="msg_dialog_clear_input_texts">Do you want to clear the input texts?</string>
+    <string name="title_dialog_clear_input_texts">Clear input texts</string>
+    <string name="label_disliked">Disliked</string>
+    <string name="label_liked">Liked</string>
+</resources>
