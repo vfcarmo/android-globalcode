@@ -1,4 +1,4 @@
-package com.example.aula9
+package com.example.aula9.chronometervm
 
 import androidx.lifecycle.ViewModel
 

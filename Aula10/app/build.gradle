@@ -38,6 +38,7 @@ dependencies {
 
     //Anko
     implementation "org.jetbrains.anko:anko:0.10.8"
+    implementation "org.jetbrains.anko:anko-design:0.10.8"
 
     // Room
     implementation "androidx.room:room-runtime:$room_version"

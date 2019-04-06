@@ -1,4 +1,9 @@
 package com.example.aula9
 
-class SeekBarViewModel {
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+class SeekBarViewModel: ViewModel() {
+
+    val seekBarValue = MutableLiveData<Int>()
 }
