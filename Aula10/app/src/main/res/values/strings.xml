@@ -1,4 +1,8 @@
 <resources>
     <string name="app_name">Aula10</string>
     <string name="action_delete_all">Delete All</string>
+    <string name="msg_confirm_delete_all">Deseja excluir todos os registros?</string>
+    <string name="title_confirm_delete_all">Confirmação de exclusão</string>
+    <string name="msg_records_deleted">Registros excluídos.</string>
+    <string name="label_undo">Desfazer</string>
 </resources>
