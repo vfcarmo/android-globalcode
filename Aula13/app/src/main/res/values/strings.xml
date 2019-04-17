@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Aula13</string>
+    <string name="missing_fields">Some fields are missing!</string>
+    <string name="login_fail">Incorrect e-mail and/or password</string>
+</resources>
